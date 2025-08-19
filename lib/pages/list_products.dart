@@ -27,7 +27,46 @@ class ListProducts extends StatelessWidget {
           ],
         ),
       ),
-      body: Center(child: Text('No products available')),
+      body: Column(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black12,
+                  blurRadius: 8,
+                  offset: Offset(0, 4),
+                ),
+              ],
+              borderRadius: BorderRadius.circular(8),
+              color: Colors.white,
+            ),
+            child: SizedBox(
+              height: 55,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('15 resultados', style: TextStyle(fontSize: 16)),
+                    Row(
+                      children: [
+                        Text(
+                          'Filtrar (2)',
+                          style: TextStyle(fontSize: 16, color: Colors.blue),
+                        ),
+                        SizedBox(width: 4),
+                        Icon(Icons.expand_more, size: 22, color: Colors.blue),
+                      ],
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Center(child: Text('No products available')),
+        ],
+      ),
     );
   }
 }

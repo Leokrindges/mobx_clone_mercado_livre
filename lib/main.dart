@@ -18,6 +18,9 @@ class MyApp extends StatelessWidget {
         appBarTheme: AppBarTheme(
           backgroundColor: Colors.yellow,
           foregroundColor: Colors.white,
+          titleTextStyle: TextStyle(color: Colors.black, fontSize: 20),
+          centerTitle: true,
+          iconTheme: IconThemeData(color: Colors.black),
         ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: Colors.yellow,

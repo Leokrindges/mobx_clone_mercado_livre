@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:mobx_clone_mercado_livre/widgets/search_input_widget.dart';
 import 'package:mobx_clone_mercado_livre/widgets/cart_icon_with_badge.dart';
 import 'package:mobx_clone_mercado_livre/widgets/cep_info_row.dart';
+import 'package:mobx_clone_mercado_livre/widgets/product_card.dart';
+import 'package:mobx_clone_mercado_livre/models/product.model.dart';
 
 class ListProducts extends StatelessWidget {
   const ListProducts({super.key});
@@ -64,7 +66,26 @@ class ListProducts extends StatelessWidget {
               ),
             ),
           ),
-          Center(child: Text('No products available')),
+          Expanded(
+            child: ListView.builder(
+              itemCount: 15,
+              itemBuilder: (context, index) {
+                final preco = 599.99 * (index + 1);
+                final product = Product(
+                  imagePath: 'assets/images/iphone.png',
+                  title: 'Apple Iphone 11 Pro (128gb) - Preto',
+                  price: 'R\$ ${preco.toStringAsFixed(2)}',
+                  installment:
+                      'Em 10x de R\$ ${(preco / 10).toStringAsFixed(2)} sem juros',
+                  shipping: 'Frete Grátis',
+                  colors: 'Disponível em 6 cores',
+                  rating: 4,
+                  maxRating: 5,
+                );
+                return ProductCard(product: product, onAddCart: () {});
+              },
+            ),
+          ),
         ],
       ),
     );

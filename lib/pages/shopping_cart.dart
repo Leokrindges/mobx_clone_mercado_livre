@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:mobx_clone_mercado_livre/stores/cart_store.dart';
+import 'package:get_it/get_it.dart';
 
 class ShoppingCart extends StatelessWidget {
-  const ShoppingCart({super.key});
+  final cartStore = GetIt.I<CartStore>();
+  ShoppingCart({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -12,8 +15,15 @@ class ShoppingCart extends StatelessWidget {
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Center(
-        child: Image.asset('assets/images/empty_cart.png', width: 200),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ...cartStore.cart.asMap().entries.map(
+            (entry) => Text(
+              '${entry.key} - ${entry.value.title} - ${entry.value.price}',
+            ),
+          ),
+        ],
       ),
     );
   }

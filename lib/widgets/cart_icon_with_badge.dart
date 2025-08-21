@@ -11,7 +11,7 @@ class CartIconWithBadge extends StatelessWidget {
     return InkWell(
       onTap: () => Navigator.of(
         context,
-      ).push(MaterialPageRoute(builder: (context) => const ShoppingCart())),
+      ).push(MaterialPageRoute(builder: (context) => ShoppingCart())),
       child: Stack(
         children: [
           Icon(Icons.shopping_cart_outlined, color: Colors.black, size: 30),

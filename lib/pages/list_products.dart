@@ -20,14 +20,15 @@ class _ListProductsState extends State<ListProducts> {
 
   final List<Product> produtos = List.generate(
     15,
+
     (index) => Product(
       id: Random().nextInt(1000),
       imagePath: 'assets/images/iphone.png',
       title: 'Apple Iphone 11 Pro (128gb) - Preto',
-      price: 'R\$ ${599.99 * (index + 1)}',
+      price: 599.99 * (index + 1),
       installment:
           'Em 10x de R\$ ${((599.99 * (index + 1)) / 10).toStringAsFixed(2)} sem juros',
-      shipping: 'Frete Grátis',
+      shipping: 'Frete grátis',
       colors: 'Disponível em 6 cores',
       maxRating: 5,
     ),

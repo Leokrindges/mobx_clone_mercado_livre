@@ -11,7 +11,7 @@ class CepInfoRow extends StatelessWidget {
         Icon(Icons.pin_drop_outlined, color: Colors.black, size: 18),
         SizedBox(width: 6),
         Text(
-          'Informe seu cep',
+          'Informe o seu cep',
           style: TextStyle(color: Colors.black, fontSize: 14),
         ),
         SizedBox(width: 6),

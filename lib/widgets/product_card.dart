@@ -5,6 +5,7 @@ import 'package:mobx_clone_mercado_livre/models/product.model.dart';
 import 'package:mobx_clone_mercado_livre/stores/cart_store.dart';
 import 'package:mobx_clone_mercado_livre/stores/product_rating_store.dart';
 import 'package:get_it/get_it.dart';
+import 'package:mobx_clone_mercado_livre/widgets/installment_text.dart';
 
 final cartStore = GetIt.I<CartStore>();
 
@@ -21,6 +22,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
+      key: ValueKey('productItem'),
       padding: const EdgeInsets.symmetric(vertical: 3.0),
       child: Card(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
@@ -35,7 +37,10 @@ class ProductCard extends StatelessWidget {
                     color: Colors.grey[350],
                     width: 150,
                     height: 200,
-                    child: Image.asset(product.imagePath),
+                    child: Image.asset(
+                      product.imagePath,
+                      key: ValueKey('productImage'),
+                    ),
                   ),
                 ],
               ),
@@ -48,13 +53,13 @@ class ProductCard extends StatelessWidget {
                   children: [
                     Text(product.title, style: TextStyle(fontSize: 14)),
                     Text(
-                      product.price,
+                      'R\$ ${product.price.toStringAsFixed(2)}',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    Text(product.installment, style: TextStyle(fontSize: 12)),
+                    InstallmentText(total: product.price, times: 10),
                     Text(
                       product.shipping,
                       style: TextStyle(
@@ -124,10 +129,12 @@ class ProductCard extends StatelessWidget {
                             }
                           },
                           child: Text(
+                            key: ValueKey('addProductToCart'),
                             'Add carrinho',
                             style: TextStyle(
                               color: Colors.blue,
                               decoration: TextDecoration.underline,
+                              decorationColor: Colors.blue,
                             ),
                           ),
                         ),

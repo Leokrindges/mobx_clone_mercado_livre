@@ -8,6 +8,7 @@ class SearchInputWidget extends StatelessWidget {
     return SizedBox(
       height: 40,
       child: TextField(
+        key: ValueKey('inputSearch'),
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(30),

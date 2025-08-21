@@ -10,21 +10,33 @@ class ShoppingCart extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(
+          key: Key("backBtn"),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Text(
           'Carrinho de compras',
           style: TextStyle(color: Colors.black),
         ),
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          ...cartStore.cart.asMap().entries.map(
-            (entry) => Text(
-              '${entry.key} - ${entry.value.title} - ${entry.value.price}',
+      body: cartStore.cart.isEmpty
+          ? Center(
+              child: Image.asset(
+                'assets/images/empty_cart.png',
+                width: 200,
+                key: ValueKey('imageCart'),
+              ),
+            )
+          : Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ...cartStore.cart.asMap().entries.map(
+                  (entry) => Text(
+                    '${entry.key} - ${entry.value.title} - ${entry.value.price}',
+                  ),
+                ),
+              ],
             ),
-          ),
-        ],
-      ),
     );
   }
 }

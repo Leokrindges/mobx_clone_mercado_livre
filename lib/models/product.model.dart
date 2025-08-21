@@ -4,7 +4,7 @@ class Product {
   int id;
   String imagePath;
   String title;
-  String price;
+  double price;
   String installment;
   String shipping;
   String colors;

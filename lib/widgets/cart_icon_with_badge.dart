@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:mobx_clone_mercado_livre/pages/shopping_cart.dart';
+import 'package:mobx_clone_mercado_livre/widgets/product_card.dart';
 
 class CartIconWithBadge extends StatelessWidget {
-  final int itemCount;
-  const CartIconWithBadge({super.key, required this.itemCount});
+  const CartIconWithBadge({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,20 +18,23 @@ class CartIconWithBadge extends StatelessWidget {
           Positioned(
             top: 0,
             right: 0,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              constraints: BoxConstraints(minWidth: 16, minHeight: 16),
-              child: Text(
-                '$itemCount',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 10,
-                  fontWeight: FontWeight.bold,
+            child: Observer(
+              builder: (_) => Container(
+                decoration: BoxDecoration(
+                  color: Colors.red,
+                  borderRadius: BorderRadius.circular(10),
                 ),
-                textAlign: TextAlign.center,
+                constraints: BoxConstraints(minWidth: 16, minHeight: 16),
+                alignment: Alignment.center,
+                child: Text(
+                  '${cartStore.itemCount}',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 10,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
             ),
           ),

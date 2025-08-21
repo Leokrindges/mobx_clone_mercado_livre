@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mobx_clone_mercado_livre/pages/list_products.dart';
+import 'package:mobx_clone_mercado_livre/stores/cart_store.dart';
+import 'package:get_it/get_it.dart';
 
 void main() {
+  GetIt.I.registerSingleton<CartStore>(CartStore());
+
   runApp(const MyApp());
 }
 

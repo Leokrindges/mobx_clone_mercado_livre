@@ -1,11 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:mobx_clone_mercado_livre/models/product.model.dart';
+import 'package:mobx_clone_mercado_livre/stores/cart_store.dart';
+import 'package:mobx_clone_mercado_livre/stores/product_rating_store.dart';
+import 'package:get_it/get_it.dart';
+
+final cartStore = GetIt.I<CartStore>();
 
 class ProductCard extends StatelessWidget {
   final Product product;
-  final VoidCallback? onAddCart;
+  final ProductRatingStore ratingStore;
 
-  const ProductCard({super.key, required this.product, this.onAddCart});
+  const ProductCard({
+    super.key,
+    required this.product,
+    required this.ratingStore,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -56,55 +67,67 @@ class ProductCard extends StatelessWidget {
                       product.colors,
                       style: TextStyle(fontSize: 12, color: Colors.grey),
                     ),
-                    Row(
-                      children: [
-                        for (int i = 0; i < product.rating; i++) ...[
-                          Icon(Icons.star, size: 16, color: Colors.blue),
-                          SizedBox(width: 4),
-                        ],
-                        for (
-                          int i = product.rating;
-                          i < product.maxRating;
-                          i++
-                        ) ...[
-                          Icon(Icons.star, size: 16, color: Colors.grey),
-                          SizedBox(width: 4),
-                        ],
-                      ],
+                    Observer(
+                      builder: (_) => RatingBar.builder(
+                        initialRating: ratingStore.rating,
+                        minRating: 1,
+                        direction: Axis.horizontal,
+                        allowHalfRating: true,
+                        itemCount: 5,
+                        itemSize: 20,
+                        itemBuilder: (context, _) =>
+                            Icon(Icons.star, color: Colors.blue),
+                        onRatingUpdate: ratingStore.setRating,
+                      ),
                     ),
                     SizedBox(height: 30),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
-                        GestureDetector(
+                        InkWell(
                           onTap: () {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(
-                                padding: EdgeInsets.only(
-                                  bottom: 20.0,
-                                  left: 15.0,
-                                ),
-                                content: Text(
-                                  'Produto adicionado!',
-                                  style: TextStyle(
-                                    fontSize: 18,
-                                    color: Colors.black,
-                                    fontWeight: FontWeight.bold,
+                            if (cartStore.isInCart(product)) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Produto não adicionado!',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
                                   ),
+                                  showCloseIcon: true,
+                                  duration: Duration(seconds: 2),
+                                  closeIconColor: Colors.black,
+                                  backgroundColor: Color(0xFFE57373),
                                 ),
-                                showCloseIcon: true,
-                                closeIconColor: Colors.black,
-                                backgroundColor: Colors.yellow,
-                              ),
-                            );
-                            if (onAddCart != null) onAddCart!();
+                              );
+                            } else {
+                              cartStore.addToCart(product);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text(
+                                    'Produto adicionado!',
+                                    style: TextStyle(
+                                      color: Colors.black,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  closeIconColor: Colors.black,
+                                  showCloseIcon: true,
+                                  duration: Duration(seconds: 2),
+                                  backgroundColor: Colors.yellow[300],
+                                ),
+                              );
+                            }
                           },
                           child: Text(
                             'Add carrinho',
                             style: TextStyle(
                               color: Colors.blue,
                               decoration: TextDecoration.underline,
-                              decorationColor: Colors.blue,
                             ),
                           ),
                         ),

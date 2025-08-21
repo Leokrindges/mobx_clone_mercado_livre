@@ -1,9 +1,12 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:mobx_clone_mercado_livre/widgets/search_input_widget.dart';
 import 'package:mobx_clone_mercado_livre/widgets/cart_icon_with_badge.dart';
 import 'package:mobx_clone_mercado_livre/widgets/cep_info_row.dart';
 import 'package:mobx_clone_mercado_livre/widgets/product_card.dart';
 import 'package:mobx_clone_mercado_livre/models/product.model.dart';
+import 'package:mobx_clone_mercado_livre/stores/product_rating_store.dart';
 
 class ListProducts extends StatefulWidget {
   const ListProducts({super.key});
@@ -14,6 +17,21 @@ class ListProducts extends StatefulWidget {
 
 class _ListProductsState extends State<ListProducts> {
   bool _loading = true;
+
+  final List<Product> produtos = List.generate(
+    15,
+    (index) => Product(
+      id: Random().nextInt(1000),
+      imagePath: 'assets/images/iphone.png',
+      title: 'Apple Iphone 11 Pro (128gb) - Preto',
+      price: 'R\$ ${599.99 * (index + 1)}',
+      installment:
+          'Em 10x de R\$ ${((599.99 * (index + 1)) / 10).toStringAsFixed(2)} sem juros',
+      shipping: 'Frete Grátis',
+      colors: 'Disponível em 6 cores',
+      maxRating: 5,
+    ),
+  );
 
   @override
   void initState() {
@@ -27,7 +45,6 @@ class _ListProductsState extends State<ListProducts> {
 
   @override
   Widget build(BuildContext context) {
-    int cartItemCount = 0;
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 90,
@@ -38,7 +55,7 @@ class _ListProductsState extends State<ListProducts> {
               children: [
                 Expanded(child: SearchInputWidget()),
                 SizedBox(width: 10),
-                CartIconWithBadge(itemCount: cartItemCount),
+                CartIconWithBadge(),
               ],
             ),
             SizedBox(height: 10),
@@ -94,21 +111,15 @@ class _ListProductsState extends State<ListProducts> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: 15,
+                    itemCount: produtos.length,
                     itemBuilder: (context, index) {
-                      final preco = 599.99 * (index + 1);
-                      final product = Product(
-                        imagePath: 'assets/images/iphone.png',
-                        title: 'Apple Iphone 11 Pro (128gb) - Preto',
-                        price: 'R\$ ${preco.toStringAsFixed(2)}',
-                        installment:
-                            'Em 10x de R\$ ${(preco / 10).toStringAsFixed(2)} sem juros',
-                        shipping: 'Frete Grátis',
-                        colors: 'Disponível em 6 cores',
-                        rating: 4,
-                        maxRating: 5,
+                      final produto = produtos[index];
+                      final ratingStore =
+                          ProductRatingStore(); // instância única para cada produto
+                      return ProductCard(
+                        product: produto,
+                        ratingStore: ratingStore,
                       );
-                      return ProductCard(product: product, onAddCart: () {});
                     },
                   ),
                 ),

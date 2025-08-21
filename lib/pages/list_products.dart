@@ -114,8 +114,7 @@ class _ListProductsState extends State<ListProducts> {
                     itemCount: produtos.length,
                     itemBuilder: (context, index) {
                       final produto = produtos[index];
-                      final ratingStore =
-                          ProductRatingStore(); // instância única para cada produto
+                      final ratingStore = ProductRatingStore();
                       return ProductCard(
                         product: produto,
                         ratingStore: ratingStore,

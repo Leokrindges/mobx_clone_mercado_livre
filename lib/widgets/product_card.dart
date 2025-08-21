@@ -77,7 +77,28 @@ class ProductCard extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         GestureDetector(
-                          onTap: onAddCart,
+                          onTap: () {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(
+                                padding: EdgeInsets.only(
+                                  bottom: 20.0,
+                                  left: 15.0,
+                                ),
+                                content: Text(
+                                  'Produto adicionado!',
+                                  style: TextStyle(
+                                    fontSize: 18,
+                                    color: Colors.black,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                ),
+                                showCloseIcon: true,
+                                closeIconColor: Colors.black,
+                                backgroundColor: Colors.yellow,
+                              ),
+                            );
+                            if (onAddCart != null) onAddCart!();
+                          },
                           child: Text(
                             'Add carrinho',
                             style: TextStyle(
